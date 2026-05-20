@@ -342,6 +342,13 @@
               </svg>
               选择文件
             </label>
+            <button class="button button-secondary" id="copySessionUrlButton" type="button">
+              <svg aria-hidden="true" viewBox="0 0 24 24">
+                <rect x="9" y="9" width="13" height="13" rx="2"></rect>
+                <path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"></path>
+              </svg>
+              复制session地址
+            </button>
             <button class="button button-primary" id="convertButton" type="submit">
               <svg aria-hidden="true" viewBox="0 0 24 24">
                 <path d="m10 13-2 2 2 2"></path>
@@ -394,6 +401,7 @@
         downloadName: "kk.json",
         toastTimer: 0,
       };
+      const SESSION_URL = "https://chatgpt.com/api/auth/session";
       const EMAIL_PATTERN = /[^\s@<>"']+@[^\s@<>"']+\.[^\s@<>"']+/i;
 
       document.addEventListener("DOMContentLoaded", init);
@@ -414,6 +422,7 @@
         elements.copyButton = document.querySelector("#copyButton");
         elements.downloadButton = document.querySelector("#downloadButton");
         elements.clearButton = document.querySelector("#clearButton");
+        elements.copySessionUrlButton = document.querySelector("#copySessionUrlButton");
         elements.toast = document.querySelector("#toast");
       }
 
@@ -426,6 +435,7 @@
         elements.copyButton.addEventListener("click", copyOutput);
         elements.downloadButton.addEventListener("click", downloadOutput);
         elements.clearButton.addEventListener("click", clearForm);
+        elements.copySessionUrlButton.addEventListener("click", copySessionUrl);
       }
 
       function handleSubmit(event) {
@@ -573,6 +583,16 @@
         } catch (error) {
           console.error(error);
           showToast("复制失败，请手动选择输出内容。");
+        }
+      }
+
+      async function copySessionUrl() {
+        try {
+          await navigator.clipboard.writeText(SESSION_URL);
+          showToast("已复制 session 地址。");
+        } catch (error) {
+          console.error(error);
+          showToast("复制失败，请手动复制：https://chatgpt.com/api/auth/session");
         }
       }
 
